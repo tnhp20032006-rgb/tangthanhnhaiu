@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gửi Thanh Nhã ❤️</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-pink: #fff0f5; 
+            --main-pink: #ffb6c1; 
+            --dark-pink: #ff69b4; 
+            --heart-red: #800000; 
+            --text-color: #4b0082; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh; width: 100vw;
+            display: flex; justify-content: center; align-items: center;
+            overflow: hidden; 
+            background-color: var(--bg-pink);
+            background-image: linear-gradient(180deg, var(--bg-pink) 0%, #ffe4e1 100%);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .heart-rain {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+
+        .falling-heart {
+            position: absolute; color: var(--heart-red);
+            font-size: 20px; opacity: 0.6;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            from { transform: translateY(-10vh) rotate(0deg); opacity: 0.8; }
+            to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .confess-card {
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 2px solid rgba(255, 105, 180, 0.3);
+            border-radius: 40px;
+            padding: 50px 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(255, 105, 180, 0.1);
+            width: 90%; max-width: 500px;
+            animation: cardFadeIn 1.2s ease-out;
+            position: relative;
+        }
+
+        @keyframes cardFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 3rem;
+            color: var(--dark-pink);
+            margin-bottom: 20px;
+        }
+
+        .love-message {
+            color: var(--text-color); font-size: 1.2rem; line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .action-zone {
+            display: flex; justify-content: center; align-items: center;
+            gap: 20px; height: 100px; position: relative;
+        }
+
+        .btn-pink {
+            padding: 15px 40px; font-size: 1.2rem; font-weight: 700;
+            border: none; border-radius: 50px; cursor: pointer;
+            transition: 0.3s;
+        }
+
+        #btn-yes {
+            background-color: var(--dark-pink);
+            color: white; z-index: 100;
+        }
+
+        #btn-no {
+            background-color: var(--main-pink);
+            color: var(--dark-pink); position: absolute; z-index: 10;
+        }
+
+        #victory-screen { display: none; }
+        
+        .success-heart {
+            font-size: 100px; color: var(--heart-red);
+            animation: pulseHeart 0.8s infinite alternate;
+        }
+
+        @keyframes pulseHeart {
+            to { transform: scale(1.15); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-rain" id="heart-rain"></div>
+
+    <div class="confess-card" id="card-init">
+        <div style="font-size: 70px; margin-bottom: 10px; color: var(--heart-red);">❤️</div>
+        <h1>Thanh Nhã ơi...</h1>
+        <p class="love-message">
+            Đà Nẵng dẫu có bao nhiêu cảnh đẹp, <br>
+            Cũng không bằng một góc nụ cười em. <br>
+            Cứ để mọi thứ thật tự nhiên... <br>
+            <b>Làm người yêu anh nhé?</b>
+        </p>
+        
+        <div class="action-zone">
+            <button class="btn-pink" id="btn-yes">ĐỒNG Ý LUÔN! ❤️</button>
+            <button class="btn-pink" id="btn-no">Hông bé ơi!</button>
+        </div>
+    </div>
+
+    <div class="confess-card" id="victory-screen">
+        <div class="success-heart">💖</div>
+        <h1 style="color: var(--heart-red);">Hạnh Phúc Nhất!</h1>
+        <p class="love-message" style="font-size: 1.5rem; font-weight: 700; color: var(--heart-red);">
+            Chốt đơn rồi nhé Thanh Nhã! <br>
+            Hẹn gặp em sớm nhất tại Đà Nẵng. 🥰
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const rainContainer = document.getElementById('heart-rain');
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '❤️'; 
+            heart.className = 'falling-heart';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            rainContainer.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
+
+        const btnNo = document.getElementById('btn-no');
+        const btnYes = document.getElementById('btn-yes');
+        const cardInit = document.getElementById('card-init');
+        const victory = document.getElementById('victory-screen');
+
+        function move() {
+            const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 100);
+            const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 100);
+            btnNo.style.left = x + 'px';
+            btnNo.style.top = y + 'px';
+            btnNo.style.transition = '0.2s all ease';
+        }
+
+        btnNo.addEventListener('mouseover', move);
+        btnNo.addEventListener('touchstart', (e) => { e.preventDefault(); move(); });
+
+        btnYes.addEventListener('click', () => {
+            cardInit.style.display = 'none';
+            victory.style.display = 'block';
+            
+            const end = Date.now() + 10000;
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff69b4', '#800000'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ffb6c1', '#800000'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        });
+    </script>
+</body>
+</html>
